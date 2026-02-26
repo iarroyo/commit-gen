@@ -71,11 +71,11 @@ prepare-commit-msg hook
 commitizen interactive prompt
   ? Select the type of change:  feat
   ? Scope (optional):           auth
-  ? Short description:          add token refresh rotation
+  ? Short description:          [AUTH-42] add token refresh rotation
   ? Breaking change?            No
     │
     ▼
-commit message written → feat(auth): add token refresh rotation
+commit message written → feat(auth): [AUTH-42] add token refresh rotation
     │
     ▼
 commit-msg hook
@@ -89,7 +89,7 @@ commitlint validates the message
 To skip the interactive prompt and commit directly:
 
 ```bash
-git commit -m "feat(auth): add token refresh rotation"
+git commit -m "feat(auth): [AUTH-42] add token refresh rotation"
 ```
 
 ---
@@ -97,27 +97,37 @@ git commit -m "feat(auth): add token refresh rotation"
 ## Commit message format
 
 ```
-<type>(<scope>): <subject>
+<type>(<scope>): [<TICKET-ID>|NO-TICKET] <description>
 
 [optional body]
 
 [optional footer]
 ```
 
+**Subject prefix is mandatory.** Use a Jira-style ticket ID (`PROJ-123`) or `NO-TICKET` when there is no associated ticket.
+
+Examples:
+
+```
+feat(auth): [AUTH-42] add token refresh rotation
+fix(cart): [SHOP-99] prevent double checkout submission
+chore: [NO-TICKET] bump dependency versions
+```
+
 ### Allowed types
 
 | Type | Description |
 |---|---|
-| `fix` | Fixing a bug |
 | `feat` | Adding a new feature |
-| `docs` | Updating or improving documentation |
+| `fix` | Fixing a bug |
 | `refactor` | Apply code changes without changing its behaviour or fixing a bug |
-| `perf` | Improving performance |
 | `test` | Updating or improving tests |
+| `docs` | Updating or improving documentation |
 | `build` | Updating build scripts or dependencies |
 | `chore` | Other changes, for example: bump version number |
-| `style` | Formatting, no logic change |
 | `revert` | Reverting a change |
+| `style` | Formatting, no logic change |
+| `perf` | Improving performance |
 
 ### Rules enforced by commitlint
 
@@ -127,6 +137,7 @@ git commit -m "feat(auth): add token refresh rotation"
 | `type-case` | Type must be lower-case |
 | `scope-case` | Scope must be lower-case |
 | `subject-empty` | Subject is required |
+| `subject-ticket` | Subject must start with `[TICKET-ID]` or `[NO-TICKET]` |
 | `subject-case` | Subject must not be sentence-case, PascalCase, or UPPER-CASE |
 | `subject-full-stop` | Subject must not end with a period |
 | `header-max-length` | Header must be ≤ 100 characters |
@@ -155,12 +166,14 @@ rm .git/hooks/commit-msg .git/hooks/prepare-commit-msg
 commit-config/
 ├── package.json           # package definition, bin entry, publishConfig
 ├── index.js               # npx entrypoint — dispatches setup | commit | lint
-└── src/
-    ├── cli.js             # commitizen interactive prompt
-    ├── lint.js            # commitlint validation
-    ├── setup.js           # invokes setup.sh
-    ├── setup.sh           # onboarding script — installs hooks in consumer projects
-    ├── cz-adapter.js      # commitizen adapter — loads cz-config directly
-    ├── cz-config.js       # prompt configuration (types, messages, options)
-    └── commitlint.config.js  # shared validation rules
+├── src/
+│   ├── cli.js             # commitizen interactive prompt
+│   ├── lint.js            # commitlint validation
+│   ├── setup.js           # invokes setup.sh
+│   ├── setup.sh           # onboarding script — installs hooks in consumer projects
+│   ├── cz-adapter.js      # commitizen adapter — loads cz-config directly
+│   ├── cz-config.js       # prompt configuration (types, messages, options)
+│   └── commitlint.config.js  # shared validation rules
+└── test/
+    └── commitlint.test.js # QUnit tests for all commitlint rules
 ```
