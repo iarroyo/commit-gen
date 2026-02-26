@@ -1,0 +1,28 @@
+{
+  "name": "@iarroyo/commit-config",
+  "version": "0.0.1",
+  "description": "Shared Conventional Commits configuration",
+  "bin": {
+    "commit": "./cli.js",
+    "lint": "./lint.js",
+    "setup": "./setup.js"
+  },
+  "main": "./commitlint.config.js",
+  "files": [
+    "cli.js",
+    "lint.js",
+    "setup.js",
+    "setup.sh",
+    "cz-config.js",
+    "commitlint.config.js"
+  ],
+  "dependencies": {
+    "@commitlint/core": "^19.0.0",
+    "@commitlint/rules": "^19.0.0",
+    "commitizen": "^4.0.0",
+    "cz-customizable": "^7.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
