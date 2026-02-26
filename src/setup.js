@@ -7,6 +7,6 @@ const path = require("path");
 
 const script = path.resolve(__dirname, "setup.sh");
 
-const result = spawnSync("bash", [script], { stdio: "inherit" });
+const result = spawnSync("bash", [script, ...process.argv.slice(2)], { stdio: "inherit" });
 
 process.exit(result.status ?? 1);

@@ -16,6 +16,30 @@ PACKAGE="github:${GITHUB_REPO}"
 #   PACKAGE="github:${GITHUB_REPO}#v1.0.0"
 
 # -----------------------------------------------------------------------------
+# Arguments
+# -----------------------------------------------------------------------------
+HOOKS_DIR_OVERRIDE=""
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --hooks-dir)
+      [[ -z "${2:-}" ]] && { echo "Error: --hooks-dir requires a value" >&2; exit 1; }
+      HOOKS_DIR_OVERRIDE="$2"
+      shift 2
+      ;;
+    --hooks-dir=*)
+      HOOKS_DIR_OVERRIDE="${1#*=}"
+      shift
+      ;;
+    *)
+      echo "Error: unknown argument '$1'" >&2
+      echo "Usage: setup [--hooks-dir <path>]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# -----------------------------------------------------------------------------
 # Helpers
 # -----------------------------------------------------------------------------
 RED='\033[0;31m'
@@ -54,8 +78,21 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
 fi
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
-HOOKS_DIR="${GIT_ROOT}/.git/hooks"
 log_success "Git repository found at: ${GIT_ROOT}"
+
+if [ -n "${HOOKS_DIR_OVERRIDE}" ]; then
+  # Resolve relative paths against the git root
+  if [[ "${HOOKS_DIR_OVERRIDE}" = /* ]]; then
+    HOOKS_DIR="${HOOKS_DIR_OVERRIDE}"
+  else
+    HOOKS_DIR="${GIT_ROOT}/${HOOKS_DIR_OVERRIDE}"
+  fi
+  log_info "Using custom hooks directory: ${HOOKS_DIR}"
+else
+  HOOKS_DIR="${GIT_ROOT}/.git/hooks"
+fi
+
+mkdir -p "${HOOKS_DIR}"
 
 # -----------------------------------------------------------------------------
 # Step 2 — Verify Node.js and npx are available

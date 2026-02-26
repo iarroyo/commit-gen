@@ -37,6 +37,15 @@ npx github:iarroyo/commit-config#v1.0.0 setup
 npx github:iarroyo/commit-config#main setup
 ```
 
+If your project uses a custom hooks directory (e.g. [Husky](https://typicode.github.io/husky)), pass it with `--hooks-dir`:
+
+```bash
+npx github:iarroyo/commit-config setup --hooks-dir .husky
+npx github:iarroyo/commit-config setup --hooks-dir=.husky
+```
+
+Relative paths are resolved from the repository root. Absolute paths are used as-is. The default is `.git/hooks`.
+
 The script will:
 
 1. Verify you are inside a Git repository
