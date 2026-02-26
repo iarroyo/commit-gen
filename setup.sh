@@ -84,10 +84,6 @@ install_hook() {
   HOOK_NAME=$(basename "${HOOK_PATH}")
 
   if [ -f "${HOOK_PATH}" ]; then
-    if grep -q "setup.sh managed" "${HOOK_PATH}" 2>/dev/null; then
-      log_success "${HOOK_NAME} hook already managed by setup.sh — skipping"
-      return
-    fi
     cp "${HOOK_PATH}" "${HOOK_PATH}.backup"
     log_warn "Existing ${HOOK_NAME} hook backed up to ${HOOK_PATH}.backup"
   fi
@@ -123,10 +119,6 @@ PREPARE_CONTENT='#!/usr/bin/env bash
 
 COMMIT_SOURCE="${2:-}"
 if [ -n "${COMMIT_SOURCE}" ]; then
-  exit 0
-fi
-
-if [ -s "$1" ]; then
   exit 0
 fi
 

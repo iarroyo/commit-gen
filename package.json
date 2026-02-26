@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "description": "Shared Conventional Commits configuration",
   "bin": {
-    "commit": "./cli.js",
-    "lint": "./lint.js",
-    "setup": "./setup.js"
+    "commit-config": "./index.js"
   },
   "main": "./commitlint.config.js",
   "files": [
+    "index.js",
     "cli.js",
     "lint.js",
     "setup.js",
