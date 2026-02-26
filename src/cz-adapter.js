@@ -1,42 +1,43 @@
-// Custom commitizen adapter — loads cz-config.js directly, bypassing find-config.
-// Mirrors cz-customizable's prompter using the same internal modules.
-
-const editor = require('editor');
-const temp = require('temp').track();
-const fs = require('fs');
-const log = require('cz-customizable/lib/logger');
-const buildCommit = require('cz-customizable/lib/build-commit');
-const getQuestions = require('cz-customizable/lib/questions').getQuestions;
-const config = require('./cz-config.js');
+const editor = require("editor");
+const temp = require("temp").track();
+const fs = require("fs");
+const log = require("cz-customizable/lib/logger");
+const buildCommit = require("cz-customizable/lib/build-commit");
+const getQuestions = require("cz-customizable/lib/questions").getQuestions;
+const config = require("./cz-config.js");
 
 module.exports = {
   prompter(cz, commit) {
     config.subjectLimit = config.subjectLimit || 100;
-    log.info('All lines except first will be wrapped after 100 characters.');
+    log.info("All lines except first will be wrapped after 100 characters.");
 
     const questions = getQuestions(config, cz);
 
     cz.prompt(questions).then((answers) => {
-      if (answers.confirmCommit === 'edit') {
+      if (answers.confirmCommit === "edit") {
         temp.open(null, (err, info) => {
           if (!err) {
             fs.writeSync(info.fd, buildCommit(answers, config));
             fs.close(info.fd, () => {
               editor(info.path, (code) => {
                 if (code === 0) {
-                  const commitStr = fs.readFileSync(info.path, { encoding: 'utf8' });
+                  const commitStr = fs.readFileSync(info.path, {
+                    encoding: "utf8",
+                  });
                   commit(commitStr);
                 } else {
-                  log.info(`Editor returned non zero value. Commit message was:\n${buildCommit(answers, config)}`);
+                  log.info(
+                    `Editor returned non zero value. Commit message was:\n${buildCommit(answers, config)}`,
+                  );
                 }
               });
             });
           }
         });
-      } else if (answers.confirmCommit === 'yes') {
+      } else if (answers.confirmCommit === "yes") {
         commit(buildCommit(answers, config));
       } else {
-        log.info('Commit has been canceled.');
+        log.info("Commit has been canceled.");
       }
     });
   },

@@ -1,4 +1,3 @@
-// commitlint.config.js — shared validation rules
 module.exports = {
   plugins: [
     {
@@ -21,14 +20,14 @@ module.exports = {
       [
         "feat",
         "fix",
-        "docs",
-        "style",
         "refactor",
-        "perf",
         "test",
+        "docs",
         "build",
         "chore",
         "revert",
+        "style",
+        "perf",
       ],
     ],
     "type-case": [2, "always", "lower-case"],
