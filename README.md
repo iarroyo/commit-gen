@@ -161,10 +161,18 @@ Commit types, scopes, and validation rules are defined in this repo. To adjust t
 
 ## Uninstall
 
-Remove the two hooks from any consumer project:
+From the root of any consumer project, run:
 
 ```bash
-rm .git/hooks/commit-msg .git/hooks/prepare-commit-msg
+npx github:iarroyo/commit-config uninstall
+```
+
+The script only removes hooks that contain the `setup.sh managed` marker. Any hook that was not installed by this tool is left untouched with a warning.
+
+If you installed with a custom `--hooks-dir`, pass the same path to uninstall:
+
+```bash
+npx github:iarroyo/commit-config uninstall --hooks-dir .husky
 ```
 
 ---
@@ -174,12 +182,14 @@ rm .git/hooks/commit-msg .git/hooks/prepare-commit-msg
 ```
 commit-config/
 ├── package.json           # package definition, bin entry, publishConfig
-├── index.js               # npx entrypoint — dispatches setup | commit | lint
+├── index.js               # npx entrypoint — dispatches setup | uninstall | commit | lint
 ├── src/
 │   ├── cli.js             # commitizen interactive prompt
 │   ├── lint.js            # commitlint validation
 │   ├── setup.js           # invokes setup.sh
 │   ├── setup.sh           # onboarding script — installs hooks in consumer projects
+│   ├── uninstall.js       # invokes uninstall.sh
+│   ├── uninstall.sh       # removes managed hooks from consumer projects
 │   ├── cz-adapter.js      # commitizen adapter — loads cz-config directly
 │   ├── cz-config.js       # prompt configuration (types, messages, options)
 │   └── commitlint.config.js  # shared validation rules

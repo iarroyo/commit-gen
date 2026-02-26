@@ -17,8 +17,11 @@ switch (command) {
   case 'lint':
     require('./src/lint.js');
     break;
+  case 'uninstall':
+    require('./src/uninstall.js');
+    break;
   default:
     console.error(`Unknown command: ${command || '(none)'}`);
-    console.error('Usage: commit-config <setup|commit|lint>');
+    console.error('Usage: commit-config <setup|uninstall|commit|lint>');
     process.exit(1);
 }
