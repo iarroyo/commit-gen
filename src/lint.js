@@ -16,11 +16,12 @@ if (!msgFile) {
 const message = fs.readFileSync(msgFile, "utf8").trim();
 const config = require(path.resolve(__dirname, "./commitlint.config.js"));
 
-lint(
-  message,
-  config.rules,
-  config.parserPreset ? { parserPreset: config.parserPreset } : {},
-)
+const opts = {
+  ...(config.parserPreset ? { parserPreset: config.parserPreset } : {}),
+  ...(config.plugins ? { plugins: config.plugins } : {}),
+};
+
+lint(message, config.rules, opts)
   .then((result) => {
     if (result.valid) {
       process.exit(0);

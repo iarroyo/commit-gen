@@ -135,7 +135,7 @@ git commit -m "feat(auth): add token refresh rotation"
 
 ## Per-project customization
 
-Commit types, scopes, and validation rules are defined in this repo. To adjust them for all projects, edit `cz-config.js` (prompt) and `commitlint.config.js` (rules), then tag a new release and update the `#ref` in each consumer project's hooks.
+Commit types, scopes, and validation rules are defined in this repo. To adjust them for all projects, edit `src/cz-config.js` (prompt) and `src/commitlint.config.js` (rules), then tag a new release and update the `#ref` in each consumer project's hooks.
 
 ---
 
@@ -155,10 +155,12 @@ rm .git/hooks/commit-msg .git/hooks/prepare-commit-msg
 commit-config/
 ├── package.json           # package definition, bin entry, publishConfig
 ├── index.js               # npx entrypoint — dispatches setup | commit | lint
-├── cli.js                 # commitizen interactive prompt
-├── lint.js                # commitlint validation
-├── setup.js               # invokes setup.sh
-├── setup.sh               # onboarding script — installs hooks in consumer projects
-├── cz-config.js           # commitizen prompt configuration (types, scopes, options)
-└── commitlint.config.js   # shared commitlint validation rules
+└── src/
+    ├── cli.js             # commitizen interactive prompt
+    ├── lint.js            # commitlint validation
+    ├── setup.js           # invokes setup.sh
+    ├── setup.sh           # onboarding script — installs hooks in consumer projects
+    ├── cz-adapter.js      # commitizen adapter — loads cz-config directly
+    ├── cz-config.js       # prompt configuration (types, messages, options)
+    └── commitlint.config.js  # shared validation rules
 ```

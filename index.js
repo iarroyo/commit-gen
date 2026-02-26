@@ -9,13 +9,13 @@ process.argv = [process.argv[0], process.argv[1], ...args];
 
 switch (command) {
   case 'setup':
-    require('./setup.js');
+    require('./src/setup.js');
     break;
   case 'commit':
-    require('./cli.js');
+    require('./src/cli.js');
     break;
   case 'lint':
-    require('./lint.js');
+    require('./src/lint.js');
     break;
   default:
     console.error(`Unknown command: ${command || '(none)'}`);

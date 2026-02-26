@@ -23,6 +23,7 @@ module.exports = {
   ],
 
   messages: {
+    customScope: "Denote the SCOPE of this change (optional):",
     subject:
       "Write a SHORT, IMPERATIVE tense description of the change:\n Following this format: [<TICKET-ID>|NO-TICKET] <description>\n",
     body: "For non-trivial commits, please include a brief explanation of why the change was made. Use '|' to break new line:\n",

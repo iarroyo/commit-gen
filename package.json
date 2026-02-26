@@ -5,16 +5,10 @@
   "bin": {
     "commit-config": "./index.js"
   },
-  "main": "./commitlint.config.js",
+  "main": "./src/commitlint.config.js",
   "files": [
     "index.js",
-    "cli.js",
-    "lint.js",
-    "setup.js",
-    "setup.sh",
-    "cz-config.js",
-    "cz-adapter.js",
-    "commitlint.config.js"
+    "src/"
   ],
   "dependencies": {
     "@commitlint/core": "^19.0.0",
