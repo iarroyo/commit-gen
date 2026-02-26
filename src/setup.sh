@@ -77,6 +77,18 @@ log_success "Node.js ${NODE_VERSION} found"
 # Step 3 — Install Git hooks
 # -----------------------------------------------------------------------------
 
+file_hash() {
+  local FILE="$1"
+  if command -v md5sum &>/dev/null; then
+    md5sum "${FILE}" | awk '{print $1}'
+  elif command -v md5 &>/dev/null; then
+    md5 -q "${FILE}"
+  else
+    # Fallback: use file size + mtime as a rough discriminator
+    stat -c '%s-%Y' "${FILE}" 2>/dev/null || stat -f '%z-%m' "${FILE}"
+  fi
+}
+
 install_hook() {
   local HOOK_PATH="$1"
   local HOOK_CONTENT="$2"
@@ -84,8 +96,16 @@ install_hook() {
   HOOK_NAME=$(basename "${HOOK_PATH}")
 
   if [ -f "${HOOK_PATH}" ]; then
-    cp "${HOOK_PATH}" "${HOOK_PATH}.backup"
-    log_warn "Existing ${HOOK_NAME} hook backed up to ${HOOK_PATH}.backup"
+    local HASH
+    HASH=$(file_hash "${HOOK_PATH}")
+    local BACKUP_PATH="${HOOK_PATH}.backup.${HASH}"
+
+    if [ ! -f "${BACKUP_PATH}" ]; then
+      cp "${HOOK_PATH}" "${BACKUP_PATH}"
+      log_warn "Existing ${HOOK_NAME} backed up → $(basename "${BACKUP_PATH}")"
+    else
+      log_info "Existing ${HOOK_NAME} already backed up with same content (${HASH})"
+    fi
   fi
 
   echo "${HOOK_CONTENT}" > "${HOOK_PATH}"

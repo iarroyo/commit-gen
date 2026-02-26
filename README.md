@@ -44,7 +44,7 @@ The script will:
 3. Install the `commit-msg` Git hook — validates every commit message
 4. Install the `prepare-commit-msg` Git hook — launches the interactive prompt on `git commit`
 
-> Existing hooks are backed up as `<hook-name>.backup` before being replaced.
+> Existing hooks are backed up as `<hook-name>.backup.<hash>` before being replaced. The hash is derived from the file content, so re-running setup never overwrites a backup with a different hash, and identical content is never backed up twice.
 
 ### What gets added to the consumer project
 
