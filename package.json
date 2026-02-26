@@ -14,6 +14,7 @@
     "setup.js",
     "setup.sh",
     "cz-config.js",
+    "cz-adapter.js",
     "commitlint.config.js"
   ],
   "dependencies": {
