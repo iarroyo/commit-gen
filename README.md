@@ -192,7 +192,10 @@ commit-gen/
 │   ├── uninstall.sh       # removes managed hooks from consumer projects
 │   ├── cz-adapter.js      # commitizen adapter — loads cz-config directly
 │   ├── cz-config.js       # prompt configuration (types, messages, options)
-│   └── commitlint.config.js  # shared validation rules
+│   ├── commitlint.config.js  # shared validation rules
+│   └── lib/
+│       ├── common.sh      # shared helpers (logging, OS detection, hashing)
+│       └── hooks.sh       # hook templates and installer
 └── test/
     └── commitlint.test.js # QUnit tests for all commitlint rules
 ```
