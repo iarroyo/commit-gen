@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Launched by integrators via:
-//   npx github:iarroyo/commit-config uninstall [--hooks-dir <path>]
+//   npx github:iarroyo/commit-gen uninstall [--hooks-dir <path>]
 
 const { spawnSync } = require("child_process");
 const path = require("path");

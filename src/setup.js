@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Launched by integrators via:
-//   npx @iarroyo/commit-config setup
+//   npx @iarroyo/commit-gen setup
 
 const { spawnSync } = require("child_process");
 const path = require("path");

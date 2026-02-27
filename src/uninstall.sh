@@ -87,7 +87,7 @@ for HOOK_NAME in "${HOOKS[@]}"; do
   fi
 
   if ! grep -qF "${MANAGED_MARKER}" "${HOOK_PATH}"; then
-    log_warn "${HOOK_NAME}: not managed by commit-config — skipped (remove manually if needed)"
+    log_warn "${HOOK_NAME}: not managed by commit-gen — skipped (remove manually if needed)"
     SKIPPED=$((SKIPPED + 1))
     continue
   fi
@@ -103,7 +103,7 @@ done
 echo ""
 if [ "${SKIPPED}" -gt 0 ]; then
   echo -e "${YELLOW}${BOLD}⚠ Uninstall complete with warnings.${RESET}"
-  echo -e "  ${SKIPPED} hook(s) were not removed because they are not managed by commit-config."
+  echo -e "  ${SKIPPED} hook(s) were not removed because they are not managed by commit-gen."
 else
   echo -e "${GREEN}${BOLD}✔ Uninstall complete.${RESET}"
 fi

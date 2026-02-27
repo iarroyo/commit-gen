@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Main entrypoint — invoked by npx as:
-//   npx github:iarroyo/commit-config <command> [args]
+//   npx github:iarroyo/commit-gen <command> [args]
 
 const [,, command, ...args] = process.argv;
 
@@ -22,6 +22,6 @@ switch (command) {
     break;
   default:
     console.error(`Unknown command: ${command || '(none)'}`);
-    console.error('Usage: commit-config <setup|uninstall|commit|lint>');
+    console.error('Usage: commit-gen <setup|uninstall|commit|lint>');
     process.exit(1);
 }

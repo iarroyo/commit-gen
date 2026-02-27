@@ -10,7 +10,7 @@ set -euo pipefail
 # -----------------------------------------------------------------------------
 # Config
 # -----------------------------------------------------------------------------
-GITHUB_REPO="iarroyo/commit-config"
+GITHUB_REPO="iarroyo/commit-gen"
 PACKAGE="github:${GITHUB_REPO}"
 # To pin to a specific tag or branch, append a ref:
 #   PACKAGE="github:${GITHUB_REPO}#v1.0.0"
@@ -164,7 +164,7 @@ install_vscode_task() {
     {
       "label": "Commit (conventional)",
       "type": "shell",
-      "command": "npx --yes github:iarroyo/commit-config commit",
+      "command": "npx --yes github:iarroyo/commit-gen commit",
       "presentation": {
         "reveal": "always",
         "panel": "shared",

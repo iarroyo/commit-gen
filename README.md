@@ -1,4 +1,4 @@
-# @iarroyo/commit-config
+# @iarroyo/commit-gen
 
 Shared [Conventional Commits](https://www.conventionalcommits.org) tooling for all projects in the org — regardless of tech stack (Frontend, Java/Gradle, .NET, etc.).
 
@@ -25,7 +25,7 @@ Provides:
 From the root of any project (frontend, Java, .NET — any stack), run:
 
 ```bash
-npx github:iarroyo/commit-config setup
+npx github:iarroyo/commit-gen setup
 ```
 
 No registry authentication required. npx fetches the package directly from the GitHub repository.
@@ -33,15 +33,15 @@ No registry authentication required. npx fetches the package directly from the G
 To pin to a specific version or branch:
 
 ```bash
-npx github:iarroyo/commit-config#v1.0.0 setup
-npx github:iarroyo/commit-config#main setup
+npx github:iarroyo/commit-gen#v1.0.0 setup
+npx github:iarroyo/commit-gen#main setup
 ```
 
 If your project uses a custom hooks directory (e.g. [Husky](https://typicode.github.io/husky)), pass it with `--hooks-dir`:
 
 ```bash
-npx github:iarroyo/commit-config setup --hooks-dir .husky
-npx github:iarroyo/commit-config setup --hooks-dir=.husky
+npx github:iarroyo/commit-gen setup --hooks-dir .husky
+npx github:iarroyo/commit-gen setup --hooks-dir=.husky
 ```
 
 Relative paths are resolved from the repository root. Absolute paths are used as-is. The default is `.git/hooks`.
@@ -81,7 +81,7 @@ The `prepare-commit-msg` hook launches the interactive commitizen prompt using `
 Run setup with the `--vscode` flag to install a VS Code task that opens the commitizen prompt in the integrated terminal (which is a real TTY):
 
 ```bash
-npx github:iarroyo/commit-config setup --vscode
+npx github:iarroyo/commit-gen setup --vscode
 ```
 
 This creates `.vscode/tasks.json` with a **"Commit (conventional)"** task. If the file already exists it is backed up with a hash suffix before being overwritten (same behaviour as the hook installer).
@@ -203,7 +203,7 @@ Commit types, scopes, and validation rules are defined in this repo. To adjust t
 From the root of any consumer project, run:
 
 ```bash
-npx github:iarroyo/commit-config uninstall
+npx github:iarroyo/commit-gen uninstall
 ```
 
 The script only removes hooks that contain the `setup.sh managed` marker. Any hook that was not installed by this tool is left untouched with a warning.
@@ -211,7 +211,7 @@ The script only removes hooks that contain the `setup.sh managed` marker. Any ho
 If you installed with a custom `--hooks-dir`, pass the same path to uninstall:
 
 ```bash
-npx github:iarroyo/commit-config uninstall --hooks-dir .husky
+npx github:iarroyo/commit-gen uninstall --hooks-dir .husky
 ```
 
 ---
@@ -219,7 +219,7 @@ npx github:iarroyo/commit-config uninstall --hooks-dir .husky
 ## Repository structure
 
 ```
-commit-config/
+commit-gen/
 ├── package.json           # package definition, bin entry, publishConfig
 ├── index.js               # npx entrypoint — dispatches setup | uninstall | commit | lint
 ├── src/

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Launched by the commit-msg Git hook via:
-//   npx @iarroyo/commit-config lint <commit-msg-file>
+//   npx @iarroyo/commit-gen lint <commit-msg-file>
 
 const { lint } = require("@commitlint/core");
 const fs = require("fs");

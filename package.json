@@ -1,9 +1,9 @@
 {
-  "name": "@iarroyo/commit-config",
+  "name": "@iarroyo/commit-gen",
   "version": "0.0.1",
   "description": "Shared Conventional Commits configuration",
   "bin": {
-    "commit-config": "./index.js"
+    "commit-gen": "./index.js"
   },
   "main": "./src/commitlint.config.js",
   "files": [

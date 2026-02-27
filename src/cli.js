@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Launched by the prepare-commit-msg Git hook via:
-//   npx @iarroyo/commit-config commit --hook
+//   npx @iarroyo/commit-gen commit --hook
 
 const path = require("path");
 const { bootstrap } = require("commitizen/dist/cli/git-cz");
