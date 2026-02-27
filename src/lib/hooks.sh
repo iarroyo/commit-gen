@@ -58,13 +58,9 @@ if [ -n "${COMMIT_SOURCE}" ]; then
   exit 0
 fi
 
-# VS Code'"'"'s git process has no TTY — skip the interactive prompt.
-# Use the "Commit (conventional)" VS Code task instead.
-if [ -n "${VSCODE_GIT_IPC_HANDLE:-}" ]; then
-  exit 0
-fi
-
-exec < /dev/tty
+# Skip the interactive prompt when there is no controlling TTY
+# (e.g. VS Code Source Control, CI). Falls through normally in any terminal.
+exec < /dev/tty 2>/dev/null || exit 0
 npx --yes '"${PACKAGE}"' commit --hook || true
 '
 
