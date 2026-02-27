@@ -19,7 +19,6 @@ PACKAGE="github:${GITHUB_REPO}"
 # Arguments
 # -----------------------------------------------------------------------------
 HOOKS_DIR_OVERRIDE=""
-INSTALL_VSCODE=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -32,13 +31,9 @@ while [[ $# -gt 0 ]]; do
       HOOKS_DIR_OVERRIDE="${1#*=}"
       shift
       ;;
-    --vscode)
-      INSTALL_VSCODE=true
-      shift
-      ;;
     *)
       echo "Error: unknown argument '$1'" >&2
-      echo "Usage: setup [--hooks-dir <path>] [--vscode]" >&2
+      echo "Usage: setup [--hooks-dir <path>]" >&2
       exit 1
       ;;
   esac
@@ -101,15 +96,6 @@ source "$(dirname "$0")/lib/hooks.sh"
 install_hooks
 
 # -----------------------------------------------------------------------------
-# Step 4 (optional) — Install VS Code task
-# -----------------------------------------------------------------------------
-if [ "${INSTALL_VSCODE}" = true ]; then
-  log_step "Installing VS Code task"
-  source "$(dirname "$0")/lib/vscode.sh"
-  install_vscode_task
-fi
-
-# -----------------------------------------------------------------------------
 # Done
 # -----------------------------------------------------------------------------
 echo ""
@@ -119,9 +105,6 @@ echo -e "  ${BOLD}How it works:${RESET}"
 echo -e "  • Run ${BOLD}git commit${RESET} as usual — the interactive prompt will guide you"
 echo -e "  • Or write your message manually — it will be validated on save"
 echo -e "  • To commit non-interactively: ${BOLD}git commit -m 'feat(scope): message'${RESET}"
-if [ "${INSTALL_VSCODE}" = true ]; then
-  echo -e "  • In VS Code: ${BOLD}⇧⌘P${RESET} → Tasks: Run Task → ${BOLD}Commit (conventional)${RESET}"
-fi
 echo ""
 echo -e "  ${BOLD}To uninstall:${RESET} delete .git/hooks/commit-msg and .git/hooks/prepare-commit-msg"
 echo ""

@@ -66,45 +66,6 @@ The script will:
 
 ---
 
-## VS Code integration
-
-### What works out of the box
-
-The `commit-msg` validation hook runs inside VS Code's built-in Source Control panel with no extra steps — it has no TTY dependency.
-
-### What requires a TTY
-
-The `prepare-commit-msg` hook launches the interactive commitizen prompt using `exec < /dev/tty`. VS Code's internal git subprocess has **no TTY**, so the prompt cannot run there. The hook detects this via the `VSCODE_GIT_IPC_HANDLE` environment variable and exits cleanly, leaving the SCM message input box available as normal.
-
-### Setting up the VS Code task
-
-Run setup with the `--vscode` flag to install a VS Code task that opens the commitizen prompt in the integrated terminal (which is a real TTY):
-
-```bash
-npx github:iarroyo/commit-gen setup --vscode
-```
-
-This creates `.vscode/tasks.json` with a **"Commit (conventional)"** task. If the file already exists it is backed up with a hash suffix before being overwritten (same behaviour as the hook installer).
-
-> **Existing installs:** re-run setup with `--vscode` to get the `VSCODE_GIT_IPC_HANDLE` guard added to the `prepare-commit-msg` hook.
-
-### Triggering the prompt from VS Code
-
-1. Stage your changes in the Source Control panel as usual.
-2. Press `⇧⌘P` → **Tasks: Run Task** → **Commit (conventional)**.
-3. The commitizen prompt appears in the integrated terminal — follow it to completion.
-4. The commit is created and `commit-msg` validates it automatically.
-
-### What gets added with `--vscode`
-
-```
-<project-root>/
-└── .vscode/
-    └── tasks.json   # "Commit (conventional)" task
-```
-
----
-
 ## Developer workflow
 
 Once setup is complete, the normal `git commit` command is all developers need:
