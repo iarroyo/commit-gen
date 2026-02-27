@@ -30,6 +30,12 @@ npx github:iarroyo/commit-gen setup
 
 No registry authentication required. npx fetches the package directly from the GitHub repository.
 
+To see all available commands:
+
+```bash
+npx github:iarroyo/commit-gen help
+```
+
 To pin to a specific version or branch:
 
 ```bash
@@ -182,7 +188,7 @@ npx github:iarroyo/commit-gen uninstall --hooks-dir .husky
 ```
 commit-gen/
 ├── package.json           # package definition, bin entry, publishConfig
-├── index.js               # npx entrypoint — dispatches setup | uninstall | commit | lint
+├── index.js               # npx entrypoint — dispatches setup | uninstall | commit | lint | help
 ├── src/
 │   ├── cli.js             # commitizen interactive prompt
 │   ├── lint.js            # commitlint validation
