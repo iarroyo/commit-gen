@@ -24,10 +24,10 @@ module.exports = {
   messages: {
     customScope: "Denote the SCOPE of this change (optional):",
     subject:
-      "Write a SHORT, IMPERATIVE tense description of the change\n (e.g. 'add filter', not 'added filter' or 'adds filter'), lowercase, no period at the end\n Following this format: [<TICKET-ID>|NO-TICKET] <description>\n",
+      "Write a SHORT, IMPERATIVE tense description of the change\n E.g.: 'add filter', not 'added filter' or 'adds filter', lowercase, no period at the end\n Following this format: [<TICKET-ID>|NO-TICKET] <description>:\n",
     body: "For non-trivial commits, please include a brief explanation of why the change was made. Use '|' to break new line:\n",
     footer:
-      "References to  issues, tickets, or other PRs (e.g. <JIRA TICKET-ID> or <GITHUB ISSUE-ID>)",
+      "References to closed issues or tickets (optional). E.g.: <JIRA TICKET-ID> or <GITHUB ISSUE-ID>:\n",
   },
   allowCustomScopes: true,
   allowBreakingChanges: ["feat", "fix"],
