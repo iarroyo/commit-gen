@@ -19,6 +19,7 @@ PACKAGE="github:${GITHUB_REPO}"
 # Arguments
 # -----------------------------------------------------------------------------
 HOOKS_DIR_OVERRIDE=""
+INSTALL_VSCODE=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -31,9 +32,13 @@ while [[ $# -gt 0 ]]; do
       HOOKS_DIR_OVERRIDE="${1#*=}"
       shift
       ;;
+    --vscode)
+      INSTALL_VSCODE=true
+      shift
+      ;;
     *)
       echo "Error: unknown argument '$1'" >&2
-      echo "Usage: setup [--hooks-dir <path>]" >&2
+      echo "Usage: setup [--hooks-dir <path>] [--vscode]" >&2
       exit 1
       ;;
   esac
@@ -150,6 +155,45 @@ install_hook() {
   log_success "${HOOK_NAME} hook installed"
 }
 
+install_vscode_task() {
+  local VSCODE_DIR="${GIT_ROOT}/.vscode"
+  local TASK_FILE="${VSCODE_DIR}/tasks.json"
+  local TASK_CONTENT='{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Commit (conventional)",
+      "type": "shell",
+      "command": "npx --yes github:iarroyo/commit-config commit",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}'
+
+  mkdir -p "${VSCODE_DIR}"
+
+  if [ -f "${TASK_FILE}" ]; then
+    local HASH
+    HASH=$(file_hash "${TASK_FILE}")
+    local BACKUP_PATH="${TASK_FILE}.backup.${HASH}"
+
+    if [ ! -f "${BACKUP_PATH}" ]; then
+      cp "${TASK_FILE}" "${BACKUP_PATH}"
+      log_warn "Existing tasks.json backed up → $(basename "${BACKUP_PATH}")"
+    else
+      log_info "Existing tasks.json already backed up with same content (${HASH})"
+    fi
+  fi
+
+  echo "${TASK_CONTENT}" > "${TASK_FILE}"
+  log_success ".vscode/tasks.json installed"
+}
+
 # --- commit-msg hook (commitlint validation) ----------------------------------
 log_step "Installing commit-msg hook"
 
@@ -179,11 +223,25 @@ if [ -n "${COMMIT_SOURCE}" ]; then
   exit 0
 fi
 
+# VS Code'"'"'s git process has no TTY — skip the interactive prompt.
+# Use the "Commit (conventional)" VS Code task instead.
+if [ -n "${VSCODE_GIT_IPC_HANDLE:-}" ]; then
+  exit 0
+fi
+
 exec < /dev/tty
 npx --yes '"${PACKAGE}"' commit --hook || true
 '
 
 install_hook "${HOOKS_DIR}/prepare-commit-msg" "${PREPARE_CONTENT}"
+
+# -----------------------------------------------------------------------------
+# Step 4 (optional) — Install VS Code task
+# -----------------------------------------------------------------------------
+if [ "${INSTALL_VSCODE}" = true ]; then
+  log_step "Installing VS Code task"
+  install_vscode_task
+fi
 
 # -----------------------------------------------------------------------------
 # Done
@@ -195,6 +253,9 @@ echo -e "  ${BOLD}How it works:${RESET}"
 echo -e "  • Run ${BOLD}git commit${RESET} as usual — the interactive prompt will guide you"
 echo -e "  • Or write your message manually — it will be validated on save"
 echo -e "  • To commit non-interactively: ${BOLD}git commit -m 'feat(scope): message'${RESET}"
+if [ "${INSTALL_VSCODE}" = true ]; then
+  echo -e "  • In VS Code: ${BOLD}⇧⌘P${RESET} → Tasks: Run Task → ${BOLD}Commit (conventional)${RESET}"
+fi
 echo ""
 echo -e "  ${BOLD}To uninstall:${RESET} delete .git/hooks/commit-msg and .git/hooks/prepare-commit-msg"
 echo ""
